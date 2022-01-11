@@ -9,6 +9,10 @@ class NewsExtract():
     @staticmethod
     def extract(url, cd_id, c_id):
         try :
+            # 생성자 만들기
+            art = Article()
+            art.cd_id = cd_id
+            art.c_id = c_id
             # 기사 가져오기
             res = WebRobot.CollectHtml(url)
 
@@ -30,7 +34,7 @@ class NewsExtract():
                 tags_media = res.select('#main_content > div.article_header > div.press_logo > a > img')[0]['alt']
 
                 # 제목 추출
-                title = tags_title[0].text.strip()
+                art.title = tags_title[0].text.strip()
 
                 # 내용 추출
                 temp_content = tags_content[0].text
@@ -39,7 +43,7 @@ class NewsExtract():
                 temp_content = temp_content.replace("\t", " ")
                 temp_content = temp_content.replace("\'", "\\\'")
                 temp_content = temp_content.replace("\"", "\\\"")
-                content = temp_content.strip()
+                art.content = temp_content.strip()
                 
                 # 날짜 추출
                 time_temp = tags_time[0].text.strip()
@@ -48,36 +52,36 @@ class NewsExtract():
                 if time_temp[12:14] == "오후":
                     # 1시부터 9시
                     if len(time_temp) == 19:
-                        time = time_temp[:12] + str(int(time_temp[15:16])+12) + time_temp[16:]
+                        art.time = time_temp[:12] + str(int(time_temp[15:16])+12) + time_temp[16:]
                     # 10시부터 12시
                     elif len(time_temp) == 20:
-                        time = time_temp[:12] + str(int(time_temp[15:17])+12) + time_temp[17:]
+                        art.time = time_temp[:12] + str(int(time_temp[15:17])+12) + time_temp[17:]
                 elif time_temp[12:14] == "오전":
                     # 1시부터 9시
                     if len(time_temp) == 19:
-                        time = time_temp[:12] + time_temp[15:]
+                        art.time = time_temp[:12] + time_temp[15:]
                     # 10시부터 12시
                     elif len(time_temp) == 20:
-                        time = time_temp[:12] + time_temp[15:]
+                        art.time = time_temp[:12] + time_temp[15:]
 
                 # 원문 링크 추출
-                link = tags_link.strip()
+                art.link = tags_link.strip()
                 
                 # 사진 추출
-                pic_link = tags_pic_link.strip()
+                art.pic_link = tags_pic_link.strip()
 
                 # 언론사 이름 추출
-                press_name = tags_media.strip()
+                art.press_name = tags_media.strip()
 
                 # 언론사 번호 추출
                 if url[44:].startswith('LS2D'):             # LS2D인 경우
-                    press_num = int(url[79:82])
+                    art.press_num = int(url[79:82])
                 elif url[44:].startswith('LSD'):            # LSD인 경우
-                    press_num = int(url[78:81])
+                    art.press_num = int(url[78:81])
                 else:
-                    press_num = 0
+                    art.press_num = 0
 
-                return Article(title, content, time, link, pic_link, press_name, press_num, cd_id, c_id)
+                return art
 
         except:
             return False
