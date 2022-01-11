@@ -9,6 +9,7 @@
 from CategorySql import CategorySql
 from NewsCatSql import NewsCatSql
 from WebRobot import WebRobot
+import re
 
 class FindNewsCat:
     # 카테고리 찾아 DB에 넣기
@@ -29,7 +30,7 @@ class FindNewsCat:
             CategorySql.insertCat(cat_num, cat_name)     # 쿼리 넣기
 
             j = 1
-            #cat_d_name = []
+            sid2 = re.compile('(sid2=)([0-9]*)')
 
             # 소분류 추출
             while(True):
@@ -37,7 +38,7 @@ class FindNewsCat:
                     tags_cat_d = res.select(f'#snb > ul > li:nth-child({j}) > a')
                     tags_cat_d_id = res.select(f'#snb > ul > li:nth-child({j}) > a')[0]['href']
 
-                    tag_cat_d_id = int(tags_cat_d_id[49:53])
+                    tag_cat_d_id = int(sid2.search(tags_cat_d_id).group(2))
                     
                     if not tags_cat_d:
                         break
@@ -45,10 +46,9 @@ class FindNewsCat:
                     j += 1
 
                     # 소분류명 추출
-                    for tag_cat_d in tags_cat_d:
-                        cat_d_name = (tag_cat_d.text.strip())
+                    cat_d_name = (tags_cat_d[0].text.strip())
 
-                        CategorySql.insertCatDet(tag_cat_d_id ,cat_num, cat_d_name)
+                    CategorySql.insertCatDet(tag_cat_d_id ,cat_num, cat_d_name)
                 except:
                     break
 
@@ -65,3 +65,4 @@ class FindNewsCat:
         for n in range(len(sids)):
             sidurls.append(url+sids[n]+'&mid=shm&date=')
         return sidurls, sids    # 카테고리가 포함된 주소와 카테고리 번호 리턴
+

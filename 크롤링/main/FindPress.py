@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from WebPage import WebPage
 from WebRobot import WebRobot
 from EHHelper import EHHelper
+import re
 
 class FindPress:
     def __init__(self, press_num, press_name):
@@ -21,6 +22,8 @@ class FindPress:
         # 빈 리스트 생성
         press_name = []
         press_num = []
+        press = FindPress()
+        oid = re.compile('(oid=)([0-9]*)')
 
         while(True):
             try:
@@ -34,7 +37,8 @@ class FindPress:
                     press_name.append(tag_press_name.text.strip())
 
                 # 언론사 번호만 따오기
-                press_num.append(int(tags_press_num[39:42]))
+                press_num.append(int(oid.search(tags_press_num).group(2)))
+
             except:
                 i += 1          # tr 번호 증가
                 j = 0           # li 번호 초기화
@@ -42,8 +46,9 @@ class FindPress:
                     break
                 else:
                     continue
-        return FindPress(press_num, press_name)
+        return press(press_num, press_name)
 
 # 테스트
-#print("언론사 :", len(press_name), type(press_name))
-#print("언론사 번호 :", len(press_num), type(press_num))
+#press = FindPress.findPress()
+#print("언론사 :", len(press.press_name), type(press.press_name))
+#print("언론사 번호 :", len(press.press_num), type(press.press_num))

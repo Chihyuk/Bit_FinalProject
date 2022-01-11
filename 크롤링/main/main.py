@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # main.py
 
 from Function import Function

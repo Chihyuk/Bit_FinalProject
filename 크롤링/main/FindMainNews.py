@@ -154,7 +154,7 @@ class FindMainNews:
                                     # 추출한 url의 내용을 추출하여 db에 넣기
                                     try:
                                         # url과 sid2 sid1를 인자로 넣어 extract 수행
-                                        news = NewsExtract.extract(link, sid2, sid1)    
+                                        news = NewsExtract.extract(link, int(sid2), int(sid1))    
 
                                         # 뉴스 세부 내용 저장
                                         NewsSql.insertNews(news)

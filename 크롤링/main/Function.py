@@ -6,6 +6,7 @@ from FindPress import FindPress
 from PressSql import PressSql
 from NewsSql import NewsSql
 from NewsExtract import NewsExtract
+import re
 
 class Function():
 
@@ -23,11 +24,13 @@ class Function():
     def pastNews():
         # url에 카테고리 포함시키기
         cat_urls, cat_no = FindNewsCat.catInsert(url)
+        sid1_com = re.compile('(sid1=)([0-9]*)')
+        sid2_com = re.compile('(sid2=)([0-9]*)')
 
         # 카테고리 수 만큼 for문 돌리기
         for cu in range(len(cat_urls)):
-            sid1 = cat_no[cu][14:17]
-            sid2 = cat_no[cu][5:8]
+            sid1 = sid1_com.search(cat_no[cu]).group(2)
+            sid2 = sid2_com.search(cat_no[cu]).group(2)
 
             # 완성된 뉴스 DB로 넣기
             FindMainNews.findAndInsertPastNewsUrl(cat_urls[cu], sid1, sid2)   # 인자는 url과 오늘로부터 며칠 전꺼까지 가져올 것인지 설정
