@@ -12,13 +12,16 @@ def main(a):
       summarized: str = textrank.summarize(cont[1])
       print(cont[0])
       TotalSql.insertSum(cont[0], summarized)
-      
+
   elif a == 2:
     conts = TotalSql.findContent_front()
+    exist = 0
     for cont in conts:
       summarized: str = textrank.summarize(cont[1])
       print(cont[0])
-      TotalSql.insertSum_front(cont[0], summarized)
+      exist = TotalSql.insertSum_front(cont[0], summarized, exist)
+      if exist >= 5:
+        break
 
 if __name__ == "__main__":
     main(2)

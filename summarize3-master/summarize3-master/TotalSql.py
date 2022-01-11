@@ -46,7 +46,7 @@ class TotalSql():
 
     # 앞에서 가져온 기사 넣기
     @staticmethod
-    def insertSum_front(nid, nsc):
+    def insertSum_front(nid, nsc, exist):
         cursor = SqlCon.Cursor()
         query = str.format("insert into N_summarization (n_id, ns_content) values({0}, '{1}')", nid, nsc)
         exist = 0
@@ -55,8 +55,6 @@ class TotalSql():
             SqlCon.Commit()
         except:
             exist += 1
-            if exist >= 5:
-                return None
-            return None
+            return exist
         else:
             return True
