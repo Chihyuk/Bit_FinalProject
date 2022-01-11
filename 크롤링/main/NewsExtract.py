@@ -41,7 +41,7 @@ class NewsExtract():
                 # 내용 추출
                 temp_content = tags_content[0].text
                 temp_content = temp_content.replace("\xa0", " ")
-                #temp_content = temp_content.replace("\n", "")
+                temp_content = temp_content.replace("\n", "")
                 temp_content = temp_content.replace("\t", " ")
                 temp_content = temp_content.replace("\'", "\\\'")
                 temp_content = temp_content.replace("\"", "\\\"")
