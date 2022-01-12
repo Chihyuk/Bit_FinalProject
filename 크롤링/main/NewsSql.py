@@ -55,3 +55,20 @@ class NewsSql:
             print("N-content 들어감 : ", nid)
             return True
 
+
+    # 뉴스 시간 가져오기
+    @staticmethod
+    def findMaxTimeNews():
+        cursor = SqlCon.Cursor()
+        cursor = SqlCon.Cursor()
+        query = str.format("select max(n_input) from News")
+        try: 
+            cursor.execute(query)
+            row = cursor.fetchone()     # 검색 결과 중에 하나의 Row를 fetch하시오.
+            SqlCon.Commit()
+        except:
+            return None
+        else:
+            return row[0]
+
+

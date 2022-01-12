@@ -58,15 +58,18 @@ class NewsExtract():
                 time_compile_AM = re.compile('오전')
                 time_compile_PM = re.compile('오후')
 
-                D = time_compile_D.search(time_temp).group(1)
-                H = time_compile_H.search(time_temp).group(1)
-                M = time_compile_M.search(time_temp).group(2)
+                try:
+                    D = time_compile_D.search(time_temp).group(1)
+                    H = time_compile_H.search(time_temp).group(1)
+                    M = time_compile_M.search(time_temp).group(2)
 
-                # 날짜 오전 오후 처리
-                if time_compile_AM.search(time_temp):
-                    art.time = D+" "+H+":"+M
-                elif time_compile_PM.search(time_temp):
-                    art.time = D+" "+str(int(H)+12)+":"+M
+                    # 날짜 오전 오후 처리
+                    if time_compile_AM.search(time_temp):
+                        art.time = D+" "+H+":"+M
+                    elif time_compile_PM.search(time_temp):
+                        art.time = D+" "+str(int(H)+12)+":"+M
+                except:
+                    art.time = 0
 
                 # 원문 링크 추출
                 art.link = tags_link.strip()
@@ -87,7 +90,8 @@ class NewsExtract():
             return False
 
 
-#a1 = NewsExtract.extract("https://news.naver.com/main/read.naver?mode=LS2D&mid=shm&sid1=101&sid2=259&oid=018&aid=0005124776", 226,105)
+a1 = NewsExtract.extract("https://news.naver.com/main/read.naver?mode=LS2D&mid=shm&sid1=101&sid2=259&oid=018&aid=0005124776", 226,105)
+print(a1)
 #NewsSql.insertNews(a1)
 #NewsSql.insertDescNews(a1)
 
