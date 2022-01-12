@@ -36,7 +36,10 @@ class NewsExtract():
                 tags_media = res.select('#main_content > div.article_header > div.press_logo > a > img')[0]['alt']
 
                 # 제목 추출
-                art.title = tags_title[0].text.strip()
+                temp_title = tags_title[0].text
+                temp_title = temp_title.replace("\'", "\\\'")
+                temp_title = temp_title.replace("\"", "\\\"")
+                art.title = temp_title.strip()
 
                 # 내용 추출
                 temp_content = tags_content[0].text

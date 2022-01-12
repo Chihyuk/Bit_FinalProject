@@ -13,6 +13,7 @@ def main():
         print("1. 언론사 업데이트")
         print("2. 과거 뉴스 넣기")
         print("3. 최신 뉴스 넣기")
+        print("4. 카테고리 넣기")
         select2 = input("숫자를 입력해주세요 : ")
         if int(select2) == 1:
             print("언론사 업데이트 중")
