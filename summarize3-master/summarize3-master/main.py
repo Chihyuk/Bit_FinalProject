@@ -1,3 +1,4 @@
+# KoNLPy
 from OktTokenizer import OktTokenizer
 from textrankr import TextRank
 from TotalSql import TotalSql
