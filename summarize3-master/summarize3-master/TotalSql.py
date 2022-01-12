@@ -21,7 +21,9 @@ class TotalSql():
     @staticmethod
     def insertSum(nid, nsc):
         cursor = SqlCon.Cursor()
-        query = str.format("insert into N_summarization (n_id, ns_content) values({0}, '{1}')", nid, nsc)
+        content = nsc.replace("\'", "\\\'")
+        content = content.replace("\"", "\\\"")
+        query = str.format("insert into N_summarization (n_id, ns_content) values({0}, '{1}')", nid, content)
         try: 
             cursor.execute(query)
             SqlCon.Commit()
@@ -48,7 +50,9 @@ class TotalSql():
     @staticmethod
     def insertSum_front(nid, nsc, exist):
         cursor = SqlCon.Cursor()
-        query = str.format("insert into N_summarization (n_id, ns_content) values({0}, '{1}')", nid, nsc)
+        content = nsc.replace("\'", "\\\'")
+        content = content.replace("\"", "\\\"")
+        query = str.format("insert into N_summarization (n_id, ns_content) values({0}, '{1}')", nid, content)
         try: 
             cursor.execute(query)
             SqlCon.Commit()
