@@ -1,8 +1,10 @@
 from OktTokenizer import OktTokenizer
 from textrankr import TextRank
 from TotalSql import TotalSql
+import time
+import threading
 
-def main(a):
+def main(a=2):
   mytokenizer: OktTokenizer = OktTokenizer()
   textrank: TextRank = TextRank(mytokenizer)
 
@@ -22,6 +24,7 @@ def main(a):
       exist = TotalSql.insertSum_front(cont[0], summarized, exist)
       if exist >= 5:
         break
+    threading.Timer(180, main).start()
 
 if __name__ == "__main__":
     main(2)

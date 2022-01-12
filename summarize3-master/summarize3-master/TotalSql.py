@@ -49,7 +49,6 @@ class TotalSql():
     def insertSum_front(nid, nsc, exist):
         cursor = SqlCon.Cursor()
         query = str.format("insert into N_summarization (n_id, ns_content) values({0}, '{1}')", nid, nsc)
-        exist = 0
         try: 
             cursor.execute(query)
             SqlCon.Commit()
@@ -57,4 +56,5 @@ class TotalSql():
             exist += 1
             return exist
         else:
-            return True
+            exist = 0
+            return exist

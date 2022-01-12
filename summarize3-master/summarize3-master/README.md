@@ -22,3 +22,21 @@ https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=myincizor&lo
 Okt 실습
 https://velog.io/@hsoh0423/%EC%B7%A8%ED%96%A5%EC%A0%80%EA%B2%A9-%ED%98%95%ED%83%9C%EC%86%8C-%EB%B6%84%EC%84%9D%EA%B8%B02
 
+
+
+# Ubuntu에서 실행할 경우
+git clone https://github.com/Chihyuk/Bit_FinalProject_Summarize_KoNLPy.git
+sudo apt-get install python-dev; pip install konlpy
+sudo apt-get install python3-dev; pip3 install konlpy
+sudo apt-get install openjdk-8-jre
+pip install textrankr
+pip install scipy
+
+pip install -U numpy
+pip install --force-reinstall konlpy
+
+ 
+
+https://m.blog.naver.com/ghwjd335/221343975702
+
+https://www.microsoft.com/ko-kr/download/details.aspx?id=48145&tduid=(288511dc89809825b6e924c555a007ba)(256380)(2459594)(TnL5HPStwNw-fNewCYjuHA0itM0WzyfDoQ)()
