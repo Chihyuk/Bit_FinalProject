@@ -69,7 +69,7 @@ class NewsExtract():
                     elif time_compile_PM.search(time_temp):
                         art.time = D+" "+str(int(H)+12)+":"+M
                 except:
-                    art.time = 0
+                    art.time = '9999-12-31'
 
                 # 원문 링크 추출
                 art.link = tags_link.strip()
@@ -90,8 +90,7 @@ class NewsExtract():
             return False
 
 
-a1 = NewsExtract.extract("https://news.naver.com/main/read.naver?mode=LS2D&mid=shm&sid1=101&sid2=259&oid=018&aid=0005124776", 226,105)
-print(a1)
+#a1 = NewsExtract.extract("https://news.naver.com/main/read.naver?mode=LS2D&mid=shm&sid1=101&sid2=259&oid=119&aid=0002566181", 226,105)
 #NewsSql.insertNews(a1)
 #NewsSql.insertDescNews(a1)
 
