@@ -20,9 +20,10 @@ class NewsSql:
             cursor.execute(query)
             SqlCon.Commit()
         except:
-            False
+            return False
         else:
-            True
+            print("News 들어감 : ", news.title)
+            return True
 
     # News 테이블 n_id 얻기
     @staticmethod
@@ -49,7 +50,8 @@ class NewsSql:
             cursor.execute(query)
             SqlCon.Commit()
         except:
-            False
+            return False
         else:
-            True
+            print("N-content 들어감 : ", nid)
+            return True
 

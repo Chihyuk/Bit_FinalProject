@@ -2,7 +2,7 @@
 # main.py
 
 from Function import Function
-
+from FindNewsCat import FindNewsCat
 def main():
     print("==================메뉴==================")
     print("1. bs4 선택")
@@ -24,6 +24,9 @@ def main():
         elif int(select2) == 3:
             print("최신 뉴스 정보를 DB에 넣습니다.")
             Function.presentNews()
+        elif int(select2) == 4:
+            print("카테고리 찾아 넣기")
+            FindNewsCat.findNewsCat()
     elif int(select1) == 2:
         print("Selenium을 선택하였습니다.")
 

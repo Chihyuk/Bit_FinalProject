@@ -94,20 +94,18 @@ class FindMainNews:
                                 continue        
                             else:
                                 # 해당 sid만 추출 (sid1=101)     
-                                if link.startswith(f'https://news.naver.com/main/read.naver?mode=LS2D&mid=shm&sid1={sid1}') or link.startswith(f'http://news.naver.com/main/read.naver?mode=LS2D&mid=shm&sid1={sid1}'):
+                                if link.startswith(f'https://news.naver.com/main/read.naver?mode=LS2D&') or link.startswith(f'http://news.naver.com/main/read.naver?mode=LS2D&'):
                                     # links.append(link)
 
                                     # 추출한 url의 내용을 추출하여 db에 넣기
                                     try:
                                         # url과 sid2 sid1를 인자로 넣어 extract 수행
-                                        news = NewsExtract.extract(link, sid2, sid1)    
+                                        news = NewsExtract.extract(link, int(sid2), int(sid1))  
 
                                         # 뉴스 세부 내용 저장
                                         NewsSql.insertNews(news)
                                         # 뉴스 본문 저장
                                         NewsSql.insertDescNews(news)
-
-                                        print("제목 :", news.title)
                                     except:
                                         continue
             except:
@@ -150,7 +148,7 @@ class FindMainNews:
                                 continue        
                             else:
                                 # 해당 sid만 추출 (sid1=101)     
-                                if link.startswith(f'https://news.naver.com/main/read.naver?mode=LS2D&mid=shm&sid1={sid1}') or link.startswith(f'http://news.naver.com/main/read.naver?mode=LS2D&mid=shm&sid1={sid1}'):
+                                if link.startswith(f'https://news.naver.com/main/read.naver?mode=LS2D&') or link.startswith(f'http://news.naver.com/main/read.naver?mode=LS2D&'):
                                     # 추출한 url의 내용을 추출하여 db에 넣기
                                     try:
                                         # url과 sid2 sid1를 인자로 넣어 extract 수행
@@ -160,8 +158,6 @@ class FindMainNews:
                                         NewsSql.insertNews(news)
                                         # 뉴스 본문 저장
                                         NewsSql.insertDescNews(news)
-
-                                        print("제목 :", news.title)
                                     except:
                                         continue
             except:

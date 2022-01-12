@@ -46,7 +46,7 @@ class FindPress:
                     break
                 else:
                     continue
-        return press(press_num, press_name)
+        return FindPress(press_num, press_name)
 
 # 테스트
 #press = FindPress.findPress()

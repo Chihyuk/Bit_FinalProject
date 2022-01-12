@@ -16,9 +16,9 @@ class PressSql:
                 except:
                     continue
         except:
-            False
+            return False
         else:
-            True
+            return True
 
     @staticmethod
     def insertOnePress(news):
@@ -30,9 +30,9 @@ class PressSql:
             SqlCon.Commit()
 
         except:
-            False
+            return False
         else:
-            True
+            return True
 
     @staticmethod
     def findPressNumber(news):
