@@ -66,3 +66,17 @@ class FindNewsCat:
             sidurls.append(url+sids[n]+'&mid=shm&date=')
         return sidurls, sids    # 카테고리가 포함된 주소와 카테고리 번호 리턴
 
+    # sid1을 넣어 url에 카테고리 합치기 
+    @staticmethod
+    def catInsertbySID1(url, sid1):
+        # 모든 카테고리
+        # sids = ['sid2=259&sid1=101', 'sid2=258&sid1=101', ...]
+        sids = []
+        cat = NewsCatSql.findnidSelectSID1(sid1)
+        for i in range(len(cat)):
+            sids.append('sid2='+str(cat[i][0])+'&sid1='+str(cat[i][1]))
+        sidurls = []
+        for n in range(len(sids)):
+            sidurls.append(url+sids[n]+'&mid=shm&date=')
+        return sidurls, sids    # 카테고리가 포함된 주소와 카테고리 번호 리턴
+

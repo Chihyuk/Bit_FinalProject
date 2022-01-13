@@ -3,6 +3,7 @@ from WebRobot import WebRobot
 from GetTime import GetTime
 from NewsExtract import NewsExtract
 from NewsSql import NewsSql
+import re
 
 class FindMainNews:
     # 날짜가 포함된 url을 넣어 마지막 페이지 찾기
@@ -121,6 +122,8 @@ class FindMainNews:
         inputurl = url
         getTime = GetTime.getTime(countdays)   # 오늘로부터 countdays일 가져오기
         oldest = 0      # 가져온 기사가 DB에 저장된 기사보다 이전 기사이면 +1 시킬 변수
+        sid1_com = re.compile('(sid1=)([0-9]*)')
+        #sid1 = sid1_com.search(cat_no[cu]).group(2)
 
         for gt in getTime:                              # 시간 리스트 수만큼 for 문 돌리기
             print("날짜 :", gt)
@@ -148,29 +151,33 @@ class FindMainNews:
                                 # continue 사용 이유 : href가 없어 예외가 발생된 경우에도 뒤에 있는 하이퍼링크들도 조사를 해야하기 때문에 continue를 사용한다.
                                 continue        
                             else:
-                                # 해당 sid만 추출 (sid1=101)     
+                                # LS2D로 시작하는 것만 추출
                                 if link.startswith(f'https://news.naver.com/main/read.naver?mode=LS2D&') or link.startswith(f'http://news.naver.com/main/read.naver?mode=LS2D&'):
-                                    # 추출한 url의 내용을 추출하여 db에 넣기
-                                    try:
-                                        # url과 sid2 sid1를 인자로 넣어 extract 수행
-                                        news = NewsExtract.extract(link, int(sid2), int(sid1))    
+                                    # 해당 sid만 추출 (sid1=101)   
+                                    get_sid1 = int(sid1_com.search(link).group(2))
+                                    if sid1 == get_sid1:
+                                        #print(link)
+                                        # 추출한 url의 내용을 추출하여 db에 넣기
+                                        try:
+                                            # url과 sid2 sid1를 인자로 넣어 extract 수행
+                                            news = NewsExtract.extract(link, int(sid2), int(sid1))    
 
-                                        # DB에 저장된 값보다 최신 뉴스인지 확인 (연속적으로 10번 검사하여 다 이전 기사일 경우 return 시키기)
-                                        oldnew = GetTime.compareTime(news)
-                                        if oldnew == 1:
-                                            oldest += 1
-                                        else:
-                                            oldest = 0
+                                            # DB에 저장된 값보다 최신 뉴스인지 확인 (연속적으로 10번 검사하여 다 이전 기사일 경우 return 시키기)
+                                            # oldnew = GetTime.compareTime(news)
+                                            # if oldnew == 0:
+                                            #     oldest = 0
+                                            # else:
+                                            #     oldest += 1
 
-                                        if oldest >= 10:
-                                            return True
+                                            # if oldest >= 100:
+                                            #     return True
 
-                                        # 뉴스 세부 내용 저장
-                                        NewsSql.insertNews(news)
-                                        # 뉴스 본문 저장
-                                        NewsSql.insertDescNews(news)
-                                    except:
-                                        continue
+                                            # 뉴스 세부 내용 저장
+                                            NewsSql.insertNews(news)
+                                            # 뉴스 본문 저장
+                                            NewsSql.insertDescNews(news)
+                                        except:
+                                            continue
             except:
                 continue
         return True
