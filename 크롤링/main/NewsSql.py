@@ -61,7 +61,7 @@ class NewsSql:
     def findMaxTimeNews():
         cursor = SqlCon.Cursor()
         cursor = SqlCon.Cursor()
-        query = str.format("select max(n_input) from News")
+        query = str.format("select max(n_input) from News where n_input != '9999-12-31 00:00:00'")
         try: 
             cursor.execute(query)
             row = cursor.fetchone()     # 검색 결과 중에 하나의 Row를 fetch하시오.
