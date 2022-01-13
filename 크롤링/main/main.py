@@ -49,7 +49,7 @@ def past():
     print("모든 카테고리의 기사를 넣었습니다.")
     print("10분 후 다시 크롤링 시작합니다.")
     print("현재 시간 : ", datetime.now())
-    threading.Timer(600, today).start()
+    threading.Timer(600, past).start()
 
 def today():
     sid1list = range(100, 106)
