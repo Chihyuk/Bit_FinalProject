@@ -69,5 +69,5 @@ def today():
 
 
 if __name__ == "__main__":
-    #main()
-    today()
+    main()
+    #today()
