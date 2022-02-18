@@ -1,4 +1,4 @@
-package com.example.newsum;
+package com.example.newssum;
 
 import org.junit.Test;
 
