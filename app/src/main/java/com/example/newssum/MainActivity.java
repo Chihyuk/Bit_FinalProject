@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         WebSettings ws = wView.getSettings();
         ws.setJavaScriptEnabled(true); // 자바스크립트 사용 허가
         // 3. 웹페이지 호출
-        wView.loadUrl("http://52.79.226.188/news/");
+        wView.loadUrl("http://newssum.kro.kr/news/");
     }
 
     // 뒤로가기 동작 컨트롤
