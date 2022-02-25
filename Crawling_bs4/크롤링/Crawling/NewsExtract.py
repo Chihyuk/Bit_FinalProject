@@ -18,6 +18,7 @@ class NewsExtract():
             # 기사 가져오기
             res = WebRobot.CollectHtml(url)
 
+            # copy selector로 추출
             # 제목 추출
             tags_title = res.select('#articleTitle')
             # 내용 추출
@@ -54,10 +55,10 @@ class NewsExtract():
                 
                 # 날짜 추출
                 time_temp = tags_time[0].text.strip()
-                time_compile_D = re.compile('([0-9]*[.][0-9]*[.][0-9]*[.])')
-                time_compile_H = re.compile('([0-9]*)(:)')
-                time_compile_M = re.compile('(:)([0-9]*)')
-                time_compile_AM = re.compile('오전')
+                time_compile_D = re.compile('([0-9]*[.][0-9]*[.][0-9]*[.])')        # 숫자.숫자.숫자. 으로 되어 있는 형태들 추출
+                time_compile_H = re.compile('([0-9]*)(:)')                          # 숫자: 추출
+                time_compile_M = re.compile('(:)([0-9]*)')                          # :숫자 추출
+                time_compile_AM = re.compile('오전')                                # 오전, 오후 추출
                 time_compile_PM = re.compile('오후')
 
                 try:
@@ -66,12 +67,12 @@ class NewsExtract():
                     M = time_compile_M.search(time_temp).group(2)
 
                     # 날짜 오전 오후 처리
-                    if time_compile_AM.search(time_temp):
+                    if time_compile_AM.search(time_temp):                           # 오전에 값이 있는 경우
                         art.time = D+" "+H+":"+M
-                    elif time_compile_PM.search(time_temp):
+                    elif time_compile_PM.search(time_temp):                         # 오후에 값이 있는 경우
                         art.time = D+" "+str(int(H)+12)+":"+M
                 except:
-                    art.time = '9999-12-31'
+                    art.time = '9999-12-31'                                         # 시간 데이터가 없으면 9999-12-31로 변경
 
                 # 원문 링크 추출
                 art.link = tags_link.strip()
@@ -83,8 +84,8 @@ class NewsExtract():
                 art.press_name = tags_media.strip()
 
                 # 언론사 번호 추출
-                oid = re.compile('(oid=)([0-9]*)')
-                art.press_num = oid.search(url).group(2)
+                oid = re.compile('(oid=)([0-9]*)')                                  # oid= 뒤에 오는 숫자 가져오기
+                art.press_num = oid.search(url).group(2)                            # 정규표현식 re의 search method로 처리한 뒤 2번째 그룹에 해당되는 언론사 번호 넣기
 
                 return art
 
