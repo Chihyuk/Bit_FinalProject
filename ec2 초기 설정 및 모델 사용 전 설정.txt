@@ -1,0 +1,46 @@
+ec2 초기 설정
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install python3-pip
+
+sudo apt-get install git
+sudo apt install git
+
+pip install bs4
+sudo apt-get install mysql-server
+pip install mysql-connector-python
+
+
+=================================
+
+MobaXterm에서 사용 시 세션 중지 멈추는 방법
+Settins -> Configuration -> SSH -> SSH keepalive 체크
+
+=================================
+
+Putty에서 사용 시 세션 중지 멈추는 방법
+Connection -> Seconds between keepalives = 1로 설정
+https://jun7222.tistory.com/437
+
+=================================
+
+KoNLPy 설정
+sudo apt-get install python-dev; pip install konlpy
+sudo apt-get install python3-dev; pip3 install konlpy
+sudo apt-get install openjdk-8-jre
+pip install textrankr
+pip install scipy
+
+
+=================================
+
+KoBART 설정
+git clone https://github.com/seujung/KoBART-summarization.git
+cd KoBART-summarization
+pip install gdown
+python3 download_binary.py
+pip install git+https://github.com/SKT-AI/KoBART#egg=kobart
+pip install -r requirements.txt
+pip install streamlit
+sudo pip install streamlit

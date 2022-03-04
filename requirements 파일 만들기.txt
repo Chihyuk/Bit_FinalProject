@@ -1,0 +1,5 @@
+requirements.txt 파일 생성
+$ pip freeze > requirements.txt
+
+requirements.txt 파일로 설치
+$ pip install -r requirements.txt

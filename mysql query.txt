@@ -1,0 +1,134 @@
+create database News_Summary; -- 데이터베이스 생성
+
+use News_Summary;
+
+CREATE TABLE `Log` (
+  `IPaddr` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `acstime` datetime NOT NULL,
+  `URL` varchar(45) NOT NULL,
+  `user_id` varchar(45) DEFAULT NULL,
+  KEY `FK_USER_ID` (`user_id`),
+  CONSTRAINT `FK_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `memberinfo` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `memberinfo` (
+  `id` varchar(20) NOT NULL,
+  `password` varchar(30) DEFAULT NULL,
+  `name` varchar(10) DEFAULT NULL,
+  `birth` date DEFAULT NULL,
+  `sex` varchar(5) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `memberinfo_board` (
+  `board_id` varchar(20) NOT NULL,
+  `id` varchar(20) DEFAULT NULL,
+  `title` varchar(300) DEFAULT NULL,
+  `text` varchar(1000) DEFAULT NULL,
+  `day` date DEFAULT NULL,
+  PRIMARY KEY (`board_id`),
+  KEY `board_name` (`id`),
+  CONSTRAINT `board_name` FOREIGN KEY (`id`) REFERENCES `memberinfo` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `N_category` (
+  `c_id` int NOT NULL AUTO_INCREMENT,
+  `c_name` varchar(5) NOT NULL,
+  PRIMARY KEY (`c_id`),
+  UNIQUE KEY `c_name` (`c_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `N_category_detail` (
+  `cd_id` int NOT NULL AUTO_INCREMENT,
+  `c_id` int NOT NULL,
+  `cd_name` varchar(10) NOT NULL,
+  PRIMARY KEY (`cd_id`),
+  UNIQUE KEY `cd_name` (`cd_name`),
+  KEY `FK_CATEGORY_ID_NCD` (`c_id`),
+  CONSTRAINT `FK_CATEGORY_ID_NCD` FOREIGN KEY (`c_id`) REFERENCES `N_category` (`c_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=772 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `N_content` (
+  `nc_id` int NOT NULL AUTO_INCREMENT,
+  `n_id` int DEFAULT NULL,
+  `n_content` longtext,
+  PRIMARY KEY (`nc_id`),
+  UNIQUE KEY `UNIQUE_NEWS_ID_NC` (`n_id`),
+  CONSTRAINT `FK_NEWS_ID_NC` FOREIGN KEY (`n_id`) REFERENCES `News` (`n_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=126597 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `N_summarization` (
+  `ns_id` int NOT NULL AUTO_INCREMENT,
+  `n_id` int DEFAULT NULL,
+  `ns_content` mediumtext,
+  PRIMARY KEY (`ns_id`),
+  UNIQUE KEY `UNIQUE_NEWS_ID_NS` (`n_id`),
+  CONSTRAINT `FK_NEWS_ID_NS` FOREIGN KEY (`n_id`) REFERENCES `News` (`n_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=22043 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `N_summarization_one` (
+  `nso_id` int NOT NULL AUTO_INCREMENT,
+  `n_id` int DEFAULT NULL,
+  `nso_content` mediumtext,
+  PRIMARY KEY (`nso_id`),
+  UNIQUE KEY `UNIQUE_NEWS_ID_NSO` (`n_id`),
+  CONSTRAINT `FK_NEWS_ID_NSO` FOREIGN KEY (`n_id`) REFERENCES `News` (`n_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=20449 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `News` (
+  `n_id` int NOT NULL AUTO_INCREMENT,
+  `p_id` int DEFAULT NULL,
+  `cd_id` int DEFAULT NULL,
+  `n_title` varchar(1024) NOT NULL,
+  `nd_img` varchar(1024) DEFAULT NULL,
+  `n_input` datetime DEFAULT NULL,
+  `o_link` varchar(768) DEFAULT NULL,
+  PRIMARY KEY (`n_id`),
+  UNIQUE KEY `UNIQUE_O_LINK` (`o_link`),
+  KEY `FK_PRESS_ID_N` (`p_id`),
+  KEY `FK_CD_ID_N` (`cd_id`),
+  CONSTRAINT `FK_CD_ID_N` FOREIGN KEY (`cd_id`) REFERENCES `N_category_detail` (`cd_id`),
+  CONSTRAINT `FK_PRESS_ID_N` FOREIGN KEY (`p_id`) REFERENCES `Press` (`p_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=126597 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `news_n_viewcount` (
+  `v_id` int NOT NULL AUTO_INCREMENT,
+  `hits` int unsigned NOT NULL,
+  `n_id` int DEFAULT NULL,
+  `id` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`v_id`),
+  KEY `news_n_viewcount_n_id_c1e15d16_fk_News_n_id` (`n_id`),
+  KEY `news_n_viewcount_id_c28cba07_fk_memberinfo_id` (`id`),
+  CONSTRAINT `news_n_viewcount_id_c28cba07_fk_memberinfo_id` FOREIGN KEY (`id`) REFERENCES `memberinfo` (`id`),
+  CONSTRAINT `news_n_viewcount_n_id_c1e15d16_fk_News_n_id` FOREIGN KEY (`n_id`) REFERENCES `News` (`n_id`),
+  CONSTRAINT `news_n_viewcount_chk_1` CHECK ((`hits` >= 0))
+) ENGINE=InnoDB AUTO_INCREMENT=4141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `Press` (
+  `p_id` int NOT NULL AUTO_INCREMENT,
+  `p_name` varchar(10) NOT NULL,
+  PRIMARY KEY (`p_id`),
+  UNIQUE KEY `p_name` (`p_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=662 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `Scroll_Data` (
+  `ipaddr` varchar(15) NOT NULL,
+  `acstime` datetime NOT NULL,
+  `URL` varchar(45) NOT NULL,
+  `staytime` int NOT NULL,
+  `scroll` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+

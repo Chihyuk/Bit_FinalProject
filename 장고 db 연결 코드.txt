@@ -1,0 +1,8 @@
+장고 db 연결
+https://ministar.tistory.com/11
+django-admin startapp db_test
+python manage.py inspectdb > db_test/models.py
+
+ValueError: source code string cannot contain null bytes 해결
+https://ministar.tistory.com/11
+UTF-8로 변경

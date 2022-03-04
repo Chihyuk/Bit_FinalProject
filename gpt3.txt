@@ -1,0 +1,10 @@
+https://beta.openai.com/docs/developer-quickstart/your-api-keys
+
+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
+
+
+curl https://api.openai.com/v1/engines/davinci/completions -H "Content-Type: application/json" -H "Authorization: Bearer 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" -d '{"prompt": "This is a test", "max_tokens": 5}'
+
+
+curl --user bitcoinipvision --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "move", "params": ["acc-1", "acc-2", 6, 5, "happy birthday!"] }' -H 'content-type: application/json;' http://localhost:18332/
+curl.exe --user bitcoinipvision --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "move", "params": ["acc-1", "acc-2", 6, 5, "happy birthday!"] }' -H 'content-type: application/json;' http://localhost:18332/
